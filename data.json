@@ -1,0 +1,19 @@
+{
+     "name": "Phi Hùng",
+     "img_path": "https://media.tenor.com/BP70qe8X0J8AAAAC/crycat-crying-cat.gif",
+     "account_balance": 501000,
+     "used": 49000,
+     "data": [{
+          "id": "1",
+          "type": "cash",
+          "description": "Ng\u00f4 gia",
+          "amount": 34000,
+          "date": "08.06.2023 10:04 AM"
+     }, {
+          "id": "2",
+          "type": "cash",
+          "description": "\u0102n s\u00e1ng 8\/6",
+          "amount": 15000,
+          "date": "08.06.2023 10:04 AM"
+     }]
+}

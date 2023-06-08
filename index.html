@@ -1,0 +1,137 @@
+<!-- Code by izaass -->
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+     <title>Expense management</title>
+     <meta charset="UTF-8">
+
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+     <link href="https://assets.codepen.io/344846/style.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"
+          integrity="sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link href="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.0/fc-4.2.2/fh-3.3.2/kt-2.8.2/r-2.4.1/rg-1.3.1/rr-1.3.3/sc-2.1.1/sb-1.4.2/sp-2.1.2/sl-1.6.2/sr-1.2.2/datatables.min.css"
+          rel="stylesheet" />
+     <style>
+          html {
+               line-height: 1.15;
+               -webkit-text-size-adjust: 100%;
+          }
+
+          body {
+               margin: 0;
+          }
+
+          body {
+               font-family: system-ui, -apple-system, segoe ui, Roboto, Helvetica, Arial,
+                    sans-serif, apple color emoji, segoe ui emoji;
+          }
+
+          .expense-amount {
+               color: rgba(239, 68, 68) !important;
+               font-weight: bold;
+          }
+
+          .income-amount {
+               color: rgba(16, 185, 129) !important;
+               font-weight: bold;
+          }
+     </style>
+</head>
+
+<body class="">
+
+     <div class="container-xl">
+          <div class="flex w-full items-center">
+               <div class="flex items-center text-3xl text-dark-900">
+                    <img src="" id="img_path" class="w-12 mr-4 rounded-full" alt="profile">
+                    <span id="name"></span>
+               </div>
+               <div class="ml-auto sm:flex hidden items-center justify-end">
+                    <div class="text-right">
+                         <div class="text-dark-900 text-lg">Used Balance: <span class="text-danger"
+                                   id="used_balance"></span></div>
+                         <div class="text-xs text-dark-900 text-lg">Account balance: <span class="text-success"
+                                   id="account_balance"></span>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <br>
+          <!-- Button mở modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addExpenseModal">
+               Add New
+          </button>
+          <br>
+          <!-- Modal thêm chi tiêu -->
+          <div class="modal fade" id="addExpenseModal" tabindex="-1" role="dialog"
+               aria-labelledby="addExpenseModalLabel">
+               <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                         <div class="modal-header">
+                              <h4 class="modal-title" id="addExpenseModalLabel"> Add New</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                   <span aria-hidden="true">&times;</span>
+                              </button>
+
+                         </div>
+                         <div class="modal-body">
+                              <form id="expenseForm">
+                                   <div class="form-group">
+                                        <label for="expenseType">Type:</label>
+                                        <select class="form-control" id="expenseType" required>
+                                             <option value="card">Card</option>
+                                             <option value="cash">Cash</option>
+                                             <option value="income">Income</option>
+                                        </select>
+                                   </div>
+                                   <div class="form-group">
+                                        <label for="expenseDescription">Description:</label>
+                                        <input type="text" class="form-control" id="expenseDescription"
+                                             placeholder="Nhập mô tả" required>
+                                   </div>
+                                   <div class="form-group">
+                                        <label for="expenseAmount">Amount:</label>
+                                        <input type="number" class="form-control" id="expenseAmount"
+                                             placeholder="Nhập số tiền" required>
+                                   </div>
+                              </form>
+                         </div>
+                         <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary" form="expenseForm">Add new</button>
+                         </div>
+                    </div>
+               </div>
+          </div>
+
+          <br>
+          <table class="table table-striped" id="expenseTable">
+               <thead>
+                    <tr>
+                         <th scope="col">#</th>
+                         <th scope="col">Type</th>
+                         <th scope="col">Description</th>
+                         <th scope="col">Amount</th>
+                         <th scope="col">Date</th>
+                         <th scope="col"></th>
+                    </tr>
+               </thead>
+               <tbody id="expenseTableBody">
+               </tbody>
+          </table>
+     </div>
+     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"
+          integrity="sha512-7rusk8kGPFynZWu26OKbTeI+QPoYchtxsmPeBqkHIEXJxeun4yJ4ISYe7C6sz9wdxeE1Gk3VxsIWgCZTc+vX3g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     </script>
+     <script
+          src="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.0/fc-4.2.2/fh-3.3.2/kt-2.8.2/r-2.4.1/rg-1.3.1/rr-1.3.3/sc-2.1.1/sb-1.4.2/sp-2.1.2/sl-1.6.2/sr-1.2.2/datatables.min.js">
+     </script>
+     <script src="script.js"></script>
+</body>
+
+</html>
